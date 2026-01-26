@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Rubik's Cube Collection{% endblock %}
+
+{% block body %}
+<div class="hero" style="background-image: url('{{ asset('images/5nr02jr5k9d81.jpg') }}');">
+    <h1>🧩 Bienvenue sur Rubik's Collection</h1>
+    <p>Partagez votre passion pour les Rubik's Cubes avec d'autres collectionneurs !</p>
+</div>
+
+<div class="container">
+    <section class="cube-section">
+        <h2>⭐ Les cubes les mieux notés</h2>
+        <div class="cube-grid">
+            {% for cube in topRatedCubes %}
+                <div class="cube-card">
+                    {% if cube.imageUrl %}
+                        <div class="cube-image">
+                            <img src="{{ cube.imageUrl }}" alt="{{ cube.name }}">
+                        </div>
+                    {% else %}
+                        <div class="cube-placeholder">
+                            🧩
+                        </div>
+                    {% endif %}
+                    <div class="cube-content">
+                        <h3>{{ cube.name }}</h3>
+                        <span class="badge badge-type">{{ cube.type }}</span>
+                        <div class="rating">
+                        {% for i in 1..5 %}
+                            {% if i <= cube.averageRating %}
+                                ⭐
+                            {% else %}
+                                ☆
+                            {% endif %}
+                        {% endfor %}
+                        <span class="rating-value">({{ cube.averageRating }})</span>
+                    </div>
+                    <a href="{{ path('app_rubiks_cube_show', {id: cube.id}) }}" class="btn btn-primary">Voir détails</a>
+                    </div>
+                </div>
+            {% else %}
+                <p class="no-content">Aucun cube noté pour le moment.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="cube-section">
+        <h2>🆕 Cubes récemment ajoutés</h2>
+        <div class="cube-grid">
+            {% for cube in recentCubes %}
+                <div class="cube-card">
+                    {% if cube.imageUrl %}
+                        <div class="cube-image">
+                            <img src="{{ cube.imageUrl }}" alt="{{ cube.name }}">
+                        </div>
+                    {% else %}
+                        <div class="cube-placeholder">
+                            🧩
+                        </div>
+                    {% endif %}
+                    <div class="cube-content">
+                        <h3>{{ cube.name }}</h3>
+                        <span class="badge badge-type">{{ cube.type }}</span>
+                        {% if cube.brand %}
+                            <p class="cube-brand">{{ cube.brand }}</p>
+                        {% endif %}
+                        <a href="{{ path('app_rubiks_cube_show', {id: cube.id}) }}" class="btn btn-primary">Voir détails</a>
+                    </div>
+                </div>
+            {% else %}
+                <p class="no-content">Aucun cube disponible pour le moment.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="cta-section" style="background-image: url('{{ asset('images/5nr02jr5k9d81.jpg') }}');">
+        <h2>Rejoignez la communauté !</h2>
+        <p>Créez votre collection, partagez vos avis et découvrez de nouveaux cubes.</p>
+        {% if not app.user %}
+            <a href="{{ path('app_register') }}" class="btn btn-success">S'inscrire maintenant</a>
+        {% else %}
+            <a href="{{ path('app_collection_index') }}" class="btn btn-primary">Voir ma collection</a>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

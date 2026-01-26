@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Collection de {{ user.username }} - Rubik's Cube Collection{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="card">
+        <h1 class="text-primary mb-4">
+            👤 Collection de {{ user.username }} ({{ collections|length }} cubes)
+        </h1>
+
+        <div class="collection-stats mb-4">
+            <p class="text-gray">
+                Membre depuis le {{ user.createdAt|date('d/m/Y') }}
+            </p>
+        </div>
+
+        {% if collections|length > 0 %}
+            <div class="grid">
+                {% for collection in collections %}
+                    <div class="collection-card text-center">
+                        {% if collection.rubiksCube.imageUrl %}
+                            <img src="{{ collection.rubiksCube.imageUrl }}" alt="{{ collection.rubiksCube.name }}" 
+                                 class="collection-image">
+                        {% else %}
+                            <div class="collection-placeholder">
+                                🧩
+                            </div>
+                        {% endif %}
+                        
+                        <h3 class="mb-1">{{ collection.rubiksCube.name }}</h3>
+                        <p class="text-gray mb-1">{{ collection.rubiksCube.type }}</p>
+                        
+                        {% if collection.condition %}
+                            <p class="text-dark-gray font-size-sm mb-2">
+                                État: {{ collection.condition }}
+                            </p>
+                        {% endif %}
+                        
+                        <a href="{{ path('app_rubiks_cube_show', {id: collection.rubiksCube.id}) }}" class="btn btn-primary">
+                            Voir détails
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="collection-empty">
+                <div class="empty-icon">📭</div>
+                <p class="text-gray font-size-lg">
+                    {{ user.username }} n'a pas encore de cubes dans sa collection.
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

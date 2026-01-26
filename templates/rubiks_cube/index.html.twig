@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les cubes - Rubik's Cube Collection{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>🧩 Tous les Rubik's Cubes</h1>
+
+    <div class="search-filters">
+        <form method="get" class="search-form">
+            <input type="text" name="search" placeholder="Rechercher par nom ou marque..." class="form-control" value="{{ currentSearch }}">
+            <button type="submit" class="btn btn-primary">🔍 Rechercher</button>
+        </form>
+        
+        <div class="search-actions">
+            {% if app.user %}
+                <a href="{{ path('app_rubiks_cube_new') }}" class="btn btn-success">➕ Ajouter un cube</a>
+            {% endif %}
+            
+            {% if currentSearch or currentType %}
+                <a href="{{ path('app_rubiks_cube_index') }}" class="btn btn-secondary">Réinitialiser</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="type-filters">
+        <h3>Filtrer par type :</h3>
+        <div class="filter-buttons">
+            {% for type in types %}
+                <a href="{{ path('app_rubiks_cube_index', {type: type}) }}" 
+                   class="btn {{ currentType == type ? 'btn-primary' : 'btn-secondary' }}">
+                    {{ type }}
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="cube-grid">
+        {% for cube in cubes %}
+            <div class="cube-card">
+                {% if cube.imageUrl %}
+                    <img src="{{ cube.imageUrl }}" alt="{{ cube.name }}" class="cube-image">
+                {% else %}
+                    <div class="cube-placeholder">
+                        🧩
+                    </div>
+                {% endif %}
+                <h3>{{ cube.name }}</h3>
+                <span class="badge badge-type">{{ cube.type }}</span>
+                {% if cube.brand %}
+                    <p class="cube-brand">{{ cube.brand }}</p>
+                {% endif %}
+                <div class="rating">
+                    {% for i in 1..5 %}
+                        {% if i <= cube.averageRating %}
+                            ⭐
+                        {% else %}
+                            ☆
+                        {% endif %}
+                    {% endfor %}
+                    <span class="rating-value">({{ cube.averageRating }})</span>
+                </div>
+                <a href="{{ path('app_rubiks_cube_show', {id: cube.id}) }}" class="btn btn-primary">Voir détails</a>
+            </div>
+        {% else %}
+            <p class="no-content">
+                Aucun cube trouvé. 
+                {% if app.user %}
+                    <a href="{{ path('app_rubiks_cube_new') }}" class="link-primary">Soyez le premier à en ajouter un !</a>
+                {% endif %}
+            </p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <!-- Rubik's Cube Logo - Isometric 3D View -->
+  
+  <!-- TOP FACE (Yellow dominant) -->
+  <!-- Row 1: Green, Yellow, Green -->
+  <polygon points="30,50 60,35 90,50 60,65" fill="#4CAF50" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="60,35 90,35 120,50 90,65" fill="#FFC107" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="90,35 120,35 150,50 120,65" fill="#4CAF50" stroke="#212121" stroke-width="1.5"/>
+  
+  <!-- Row 2: Yellow, Yellow, Yellow -->
+  <polygon points="30,65 60,65 90,80 60,95" fill="#FFC107" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="60,65 90,65 120,80 90,95" fill="#FFC107" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="90,65 120,65 150,80 120,95" fill="#FFC107" stroke="#212121" stroke-width="1.5"/>
+  
+  <!-- Row 3: Orange, Yellow, Red -->
+  <polygon points="30,95 60,95 90,110 60,125" fill="#FF9800" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="60,95 90,95 120,110 90,125" fill="#FFC107" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="90,95 120,95 150,110 120,125" fill="#D32F2F" stroke="#212121" stroke-width="1.5"/>
+  
+  <!-- FRONT FACE (White dominant) -->
+  <!-- Row 1: White, White, Orange -->
+  <polygon points="30,110 60,125 60,155 30,140" fill="#FFFFFF" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="60,125 90,125 90,155 60,155" fill="#FFFFFF" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="90,125 120,125 120,155 90,155" fill="#FF9800" stroke="#212121" stroke-width="1.5"/>
+  
+  <!-- Row 2: White, White, Green -->
+  <polygon points="30,140 60,155 60,185 30,170" fill="#FFFFFF" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="60,155 90,155 90,185 60,185" fill="#FFFFFF" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="90,155 120,155 120,185 90,185" fill="#4CAF50" stroke="#212121" stroke-width="1.5"/>
+  
+  <!-- Row 3: Orange, White, Green -->
+  <polygon points="30,170 60,185 60,215 30,200" fill="#FF9800" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="60,185 90,185 90,215 60,215" fill="#FFFFFF" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="90,185 120,185 120,215 90,215" fill="#4CAF50" stroke="#212121" stroke-width="1.5"/>
+  
+  <!-- RIGHT FACE (Blue dominant) -->
+  <!-- Row 1: Red, Blue, Blue -->
+  <polygon points="120,50 150,50 150,80 120,65" fill="#D32F2F" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="120,65 150,80 150,110 120,95" fill="#1976D2" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="120,80 150,95 150,125 120,110" fill="#1976D2" stroke="#212121" stroke-width="1.5"/>
+  
+  <!-- Row 2: Blue, Blue, Blue -->
+  <polygon points="120,110 150,125 150,155 120,140" fill="#1976D2" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="120,125 150,140 150,170 120,155" fill="#1976D2" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="120,140 150,155 150,185 120,170" fill="#1976D2" stroke="#212121" stroke-width="1.5"/>
+  
+  <!-- Row 3: Blue, Green, Orange -->
+  <polygon points="120,170 150,185 150,215 120,200" fill="#1976D2" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="120,185 150,200 150,230 120,215" fill="#4CAF50" stroke="#212121" stroke-width="1.5"/>
+  <polygon points="120,200 150,215 150,245 120,230" fill="#FF9800" stroke="#212121" stroke-width="1.5"/>
+</svg>

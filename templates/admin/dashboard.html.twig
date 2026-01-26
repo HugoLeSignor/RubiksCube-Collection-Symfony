@@ -1,0 +1,182 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}
+    <h1>🧩 Tableau de bord - Administration</h1>
+{% endblock %}
+
+{% block main %}
+    <div class="dashboard-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        <div class="stat-card">
+            <div class="stat-icon">🧩</div>
+            <div class="stat-content">
+                <h3>{{ totalCubes }}</h3>
+                <p>Rubik's Cubes</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-content">
+                <h3>{{ totalUsers }}</h3>
+                <p>Utilisateurs</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">💬</div>
+            <div class="stat-content">
+                <h3>{{ totalComments }}</h3>
+                <p>Commentaires</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-content">
+                <h3>{{ totalRatings }}</h3>
+                <p>Notes</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        <div class="card">
+            <div class="card-header">
+                <h3>📦 Derniers Rubik's Cubes ajoutés</h3>
+            </div>
+            <div class="card-body">
+                {% if recentCubes|length > 0 %}
+                    <ul class="list-group">
+                        {% for cube in recentCubes %}
+                            <li class="list-group-item">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <strong>{{ cube.name }}</strong>
+                                        <br>
+                                        <small style="color: #666;">{{ cube.type }} - {{ cube.brand }}</small>
+                                    </div>
+                                    <span style="background: #007bff; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.875rem;">{{ cube.createdAt|date('d/m/Y') }}</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p style="color: #666;">Aucun Rubik's Cube pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>💬 Derniers commentaires</h3>
+            </div>
+            <div class="card-body">
+                {% if recentComments|length > 0 %}
+                    <ul class="list-group">
+                        {% for comment in recentComments %}
+                            <li class="list-group-item">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <div>
+                                        <strong>{{ comment.user.username }}</strong>
+                                        <br>
+                                        <small>{{ comment.content|slice(0, 50) }}{% if comment.content|length > 50 %}...{% endif %}</small>
+                                    </div>
+                                    <span style="background: #6c757d; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.875rem;">{{ comment.createdAt|date('d/m/Y') }}</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p style="color: #666;">Aucun commentaire pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <div class="card">
+            <div class="card-header">
+                <h3>👥 Derniers utilisateurs inscrits</h3>
+            </div>
+            <div class="card-body">
+                {% if recentUsers|length > 0 %}
+                    <ul class="list-group">
+                        {% for user in recentUsers %}
+                            <li class="list-group-item">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div>
+                                        <strong>{{ user.username }}</strong>
+                                        <br>
+                                        <small style="color: #666;">{{ user.email }}</small>
+                                    </div>
+                                    <div>
+                                        {% for role in user.roles %}
+                                            <span style="background: #17a2b8; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.875rem; margin-right: 0.5rem;">{{ role }}</span>
+                                        {% endfor %}
+                                        <span style="background: #6c757d; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.875rem;">{{ user.createdAt|date('d/m/Y') }}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p style="color: #666;">Aucun utilisateur pour le moment.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .dashboard-stats {
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .stat-icon {
+            font-size: 3rem;
+        }
+        .stat-content h3 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .stat-content p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .card-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        .card-body {
+            padding: 1rem;
+        }
+        .list-group-item {
+            border: 1px solid #dee2e6;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+        }
+    </style>
+{% endblock %}
+

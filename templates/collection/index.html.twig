@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma collection - Rubik's Cube Collection{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="card">
+        <div class="flex-between mb-4">
+            <h1 class="text-primary">📦 Ma Collection ({{ collections|length }} cubes)</h1>
+            <a href="{{ path('app_rubiks_cube_index') }}" class="btn btn-primary">➕ Ajouter des cubes</a>
+        </div>
+
+        {% if collections|length > 0 %}
+            <div class="collection-stats">
+                <h3 class="mb-1">Statistiques de votre collection</h3>
+                <p class="text-gray">
+                    Vous possédez {{ collections|length }} cube(s) différent(s).
+                </p>
+            </div>
+
+            <div class="grid">
+                {% for collection in collections %}
+                    <div class="collection-card">
+                        {% if collection.rubiksCube.imageUrl %}
+                            <img src="{{ collection.rubiksCube.imageUrl }}" alt="{{ collection.rubiksCube.name }}" 
+                                 class="collection-image">
+                        {% else %}
+                            <div class="collection-placeholder">
+                                🧩
+                            </div>
+                        {% endif %}
+                        
+                        <h3 class="mb-1">{{ collection.rubiksCube.name }}</h3>
+                        <p class="text-gray mb-1">{{ collection.rubiksCube.type }}</p>
+                        
+                        {% if collection.condition %}
+                            <p class="text-dark-gray font-size-sm mb-1">
+                                État: {{ collection.condition }}
+                            </p>
+                        {% endif %}
+                        
+                        {% if collection.personalNote %}
+                            <div class="bg-white mb-2 font-size-sm">
+                                <strong>Note personnelle:</strong><br>
+                                {{ collection.personalNote }}
+                            </div>
+                        {% endif %}
+                        
+                        <p class="text-dark-gray font-size-xs mb-2">
+                            Ajouté le {{ collection.addedAt|date('d/m/Y') }}
+                        </p>
+                        
+                        <div class="flex-gap">
+                            <a href="{{ path('app_rubiks_cube_show', {id: collection.rubiksCube.id}) }}" 
+                               class="btn btn-primary flex-1">
+                                Voir
+                            </a>
+                            <form method="post" action="{{ path('app_collection_remove', {id: collection.id}) }}" 
+                                  onsubmit="return confirm('Êtes-vous sûr de vouloir retirer ce cube de votre collection ?');">
+                                <button type="submit" class="btn btn-danger">🗑️</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="collection-empty">
+                <div class="empty-icon">📭</div>
+                <h2 class="text-gray mb-2">Votre collection est vide</h2>
+                <p class="text-dark-gray mb-4">
+                    Commencez à construire votre collection en ajoutant vos premiers Rubik's Cubes !
+                </p>
+                <a href="{{ path('app_rubiks_cube_index') }}" class="btn btn-black">
+                    Découvrir les cubes
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

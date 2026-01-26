@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ cube.name }} - Rubik's Cube Collection{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="cube-detail-grid">
+        {# Sidebar avec image et notation #}
+        <div class="cube-detail-sidebar">
+            {% if cube.imageUrl %}
+                <img src="{{ cube.imageUrl }}" alt="{{ cube.name }}" class="cube-detail-image">
+            {% else %}
+                <div class="cube-placeholder cube-placeholder-large">
+                    🧩
+                </div>
+            {% endif %}
+            
+            <div class="rating-section">
+                <div class="rating rating-large">
+                    {% for i in 1..5 %}
+                        {% if i <= averageRating %}
+                            ⭐
+                        {% else %}
+                            ☆
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <p class="rating-average">Note moyenne: {{ averageRating }} / 5</p>
+                <p class="rating-count">{{ cube.ratings|length }} avis</p>
+            </div>
+
+            {% if app.user %}
+                <hr class="divider">
+                
+                <h3 class="text-center">Votre note</h3>
+                <form method="post" action="{{ path('app_rubiks_cube_rate', {id: cube.id}) }}" class="rating-form">
+                    <div class="star-rating">
+                        {% for i in 1..5 %}
+                            <label class="star-label">
+                                <input type="radio" name="rating" value="{{ i }}" required 
+                                       {% if userRating and userRating.rating == i %}checked{% endif %}
+                                       class="star-input">
+                                <span class="star" data-value="{{ i }}">
+                                    {% if userRating and i <= userRating.rating %}⭐{% else %}☆{% endif %}
+                                </span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">
+                        {% if userRating %}Modifier ma note{% else %}Noter ce cube{% endif %}
+                    </button>
+                </form>
+
+                <hr class="divider">
+                
+                <form method="post" action="{{ path('app_collection_add', {cubeId: cube.id}) }}">
+                    <button type="submit" class="btn btn-success btn-full">
+                        ➕ Ajouter à ma collection
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+
+        {# Contenu principal #}
+        <div class="cube-detail-content">
+            <h1>{{ cube.name }}</h1>
+            
+            <div class="badge-list">
+                <span class="badge badge-primary">{{ cube.type }}</span>
+                {% if cube.brand %}
+                    <span class="badge badge-secondary">{{ cube.brand }}</span>
+                {% endif %}
+                {% if cube.difficulty %}
+                    <span class="badge badge-success">{{ cube.difficulty }}</span>
+                {% endif %}
+                {% if cube.releaseYear %}
+                    <span class="badge badge-warning">{{ cube.releaseYear }}</span>
+                {% endif %}
+            </div>
+
+            {% if cube.description %}
+                <div class="cube-description">
+                    <h3>Description</h3>
+                    <p>{{ cube.description }}</p>
+                </div>
+            {% endif %}
+
+            <div class="cube-info-box">
+                <p><strong>Ajouté le :</strong> {{ cube.createdAt|date('d/m/Y') }}</p>
+                <p><strong>Dans {{ cube.userCollections|length }} collection(s)</strong></p>
+            </div>
+        </div>
+    </div>
+
+    {# Section commentaires #}
+    <div class="comments-section">
+        <h2>💬 Commentaires ({{ comments|length }})</h2>
+
+        {% if app.user %}
+            <form method="post" action="{{ path('app_rubiks_cube_comment', {id: cube.id}) }}" class="comment-form">
+                <div class="form-group">
+                    <textarea name="content" class="form-control" rows="3" placeholder="Partagez votre avis sur ce cube..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Publier le commentaire</button>
+            </form>
+        {% else %}
+            <p class="login-prompt">
+                <a href="{{ path('app_login') }}" class="link-primary">Connectez-vous</a> pour laisser un commentaire.
+            </p>
+        {% endif %}
+
+        {% for comment in comments %}
+            <div class="comment-card">
+                <div class="comment-header">
+                    <strong class="comment-author">👤 {{ comment.user.username }}</strong>
+                    <span class="comment-date">{{ comment.createdAt|date('d/m/Y à H:i') }}</span>
+                </div>
+                <p class="comment-content">{{ comment.content }}</p>
+            </div>
+        {% else %}
+            <p class="no-content">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .star:hover {
+        transform: scale(1.2);
+        transition: transform 0.2s;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.star-rating label').forEach(label => {
+        label.addEventListener('click', function() {
+            const value = this.querySelector('input').value;
+            document.querySelectorAll('.star').forEach((star, index) => {
+                star.textContent = index < value ? '⭐' : '☆';
+            });
+        });
+    });
+</script>
+{% endblock %}
