@@ -56,7 +56,7 @@ class RubiksCubeCrudController extends AbstractCrudController
     {
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+            ->update(Crud::PAGE_INDEX, Action::NEW , function (Action $action) {
                 return $action->setLabel('Ajouter un Rubik\'s Cube');
             });
     }
@@ -80,11 +80,9 @@ class RubiksCubeCrudController extends AbstractCrudController
             IntegerField::new('releaseYear', 'Année de sortie')
                 ->setRequired(false)
                 ->setHelp('Année de sortie du cube'),
-            ImageField::new('imageUrl', 'Image')
-                ->setBasePath('/')
-                ->setUploadDir('public/uploads')
+            TextField::new('imageUrl', 'URL de l\'image')
                 ->setRequired(false)
-                ->setHelp('URL de l\'image ou téléchargez une image'),
+                ->setHelp('Entrez l\'URL complète de l\'image du cube (ex: https://example.com/image.jpg)'),
             TextareaField::new('description', 'Description')
                 ->setRequired(false)
                 ->setNumOfRows(5)

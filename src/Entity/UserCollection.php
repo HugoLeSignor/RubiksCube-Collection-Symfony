@@ -28,7 +28,7 @@ class UserCollection
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $personalNote = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ORM\Column(name: '`condition`', length: 50, nullable: true)]
     private ?string $condition = null; // Neuf, Très bon, Bon, Usé
 
     #[ORM\Column(nullable: true)]

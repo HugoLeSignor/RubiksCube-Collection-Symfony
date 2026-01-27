@@ -3,11 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Comment;
+use App\Entity\Contact;
 use App\Entity\Rating;
 use App\Entity\RubiksCube;
 use App\Entity\User;
 use App\Entity\UserCollection;
 use App\Repository\CommentRepository;
+use App\Repository\ContactRepository;
 use App\Repository\RatingRepository;
 use App\Repository\RubiksCubeRepository;
 use App\Repository\UserCollectionRepository;
@@ -26,7 +28,8 @@ class DashboardController extends AbstractDashboardController
         private UserRepository $userRepository,
         private CommentRepository $commentRepository,
         private RatingRepository $ratingRepository,
-        private UserCollectionRepository $collectionRepository
+        private UserCollectionRepository $collectionRepository,
+        private ContactRepository $contactRepository
     ) {
     }
 
@@ -37,10 +40,13 @@ class DashboardController extends AbstractDashboardController
         $totalComments = $this->commentRepository->count([]);
         $totalRatings = $this->ratingRepository->count([]);
         $totalCollections = $this->collectionRepository->count([]);
+        $totalContacts = $this->contactRepository->count([]);
+        $unreadContacts = $this->contactRepository->count(['isRead' => false]);
 
         $recentCubes = $this->cubeRepository->findBy([], ['createdAt' => 'DESC'], 5);
         $recentComments = $this->commentRepository->findBy([], ['createdAt' => 'DESC'], 5);
         $recentUsers = $this->userRepository->findBy([], ['createdAt' => 'DESC'], 5);
+        $recentContacts = $this->contactRepository->findBy([], ['createdAt' => 'DESC'], 5);
 
         return $this->render('admin/dashboard.html.twig', [
             'totalCubes' => $totalCubes,
@@ -48,9 +54,12 @@ class DashboardController extends AbstractDashboardController
             'totalComments' => $totalComments,
             'totalRatings' => $totalRatings,
             'totalCollections' => $totalCollections,
+            'totalContacts' => $totalContacts,
+            'unreadContacts' => $unreadContacts,
             'recentCubes' => $recentCubes,
             'recentComments' => $recentComments,
             'recentUsers' => $recentUsers,
+            'recentContacts' => $recentContacts,
         ]);
     }
 
@@ -72,6 +81,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('💬 Interactions');
         yield MenuItem::linkToCrud('Commentaires', 'fa fa-comments', Comment::class);
         yield MenuItem::linkToCrud('Notes', 'fa fa-star', Rating::class);
+
+        yield MenuItem::section('📧 Messages');
+        yield MenuItem::linkToCrud('Messages de Contact', 'fa fa-envelope', Contact::class)
+            ->setBadge($this->contactRepository->count(['isRead' => false]), 'danger');
 
         yield MenuItem::section('👥 Utilisateurs');
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-users', User::class);

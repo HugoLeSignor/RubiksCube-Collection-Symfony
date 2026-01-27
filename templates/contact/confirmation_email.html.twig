@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+        .message-box {
+            background: white;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎲 Rubik's Cube Collection</h1>
+    </div>
+    <div class="content">
+        <h2>Bonjour {{ name }},</h2>
+        
+        <p>Nous avons bien reçu votre message concernant : <strong>{{ subject }}</strong></p>
+        
+        <div class="message-box">
+            <h3>Votre message :</h3>
+            <p>{{ message|nl2br }}</p>
+        </div>
+        
+        <p>Notre équipe va traiter votre demande dans les plus brefs délais et vous répondra directement à l'adresse email que vous nous avez fournie.</p>
+        
+        <p>En attendant, n'hésitez pas à explorer notre collection de Rubik's Cubes et à partager votre passion avec notre communauté !</p>
+        
+        <p>Cordialement,<br>
+        <strong>L'équipe Rubik's Cube Collection</strong></p>
+    </div>
+    <div class="footer">
+        <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+    </div>
+</body>
+</html>
