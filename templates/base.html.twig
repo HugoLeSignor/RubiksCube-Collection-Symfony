@@ -21,7 +21,14 @@
                     <img src="{{ asset('images/logo-rubiks.svg') }}" alt="Rubik's Cube Logo" class="logo-image">
                     Rubik's Collection
                 </a>
-                <ul>
+                
+                <button class="burger-menu" id="burgerMenu" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <ul class="nav-menu" id="navMenu">
                     <li><a href="{{ path('app_home') }}">Accueil</a></li>
                     <li><a href="{{ path('app_rubiks_cube_index') }}">Galerie</a></li>
                     <li><a href="{{ path('app_contact') }}">Contact</a></li>
